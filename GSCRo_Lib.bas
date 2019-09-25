@@ -182,7 +182,6 @@ End Function
 '
 
 
-
 Function getProjectFolderOf(documentName As String) As String   ' should return folder object reference or string (complete path?)
 
 
@@ -413,7 +412,7 @@ If UBound(Split(Split(idoc, "/")(1), " ")) = 0 Then     ' No suffix in given inp
     dsuf = ""
     dyea = Trim(Split(idoc, "/")(1))
 Else
-    
+
     dsuf = (Replace(Split(Split(idoc, "/")(1), " ")(1), " ", ""))
     If Is_StdSuff(dsuf) Then
         dsuf = "-" & SGC_StdSuff_To_FileSuff(dsuf)
@@ -427,7 +426,7 @@ Else
             Exit Function
         End If
     End If
-    
+
     dyea = Split(Split(idoc, "/")(1), " ")(0)
     'dsuf = Replace(Right$(dsuf, 1))
 End If
@@ -446,7 +445,19 @@ If Dir(mProdbasePath & "\" & dtype & dnum & dsuf & ".??" & dyea & ".docx") <> ""
         Build_MProd_Path = mProdbasePath & "\" & Dir(mProdbasePath & "\" & dtype & dnum & dsuf & ".??" & dyea & ".docx")
     End If
 Else
-    Build_MProd_Path = ""
+    If Dir(mProdbasePath & "\" & dtype & dnum & dsuf & ".??" & dyea & ".txt") <> "" Then
+        If Not IsMissing(getFileNameOnly) Then
+            If getFileNameOnly = "True" Or (LCase(getFileNameOnly) = "getfilenameonly") Then
+                Build_MProd_Path = Dir(mProdbasePath & "\" & dtype & dnum & dsuf & ".??" & dyea & ".txt")
+            Else
+                Build_MProd_Path = mProdbasePath & "\" & Dir(mProdbasePath & "\" & dtype & dnum & dsuf & ".??" & dyea & ".txt")
+            End If
+        Else
+            Build_MProd_Path = mProdbasePath & "\" & Dir(mProdbasePath & "\" & dtype & dnum & dsuf & ".??" & dyea & ".txt")
+        End If
+    Else
+        Build_MProd_Path = ""
+    End If
 End If
 
 End Function
@@ -1342,9 +1353,9 @@ SNumber = Format(Mid$(FileName, 3, 5), "#####")
 SYear = Mid$(FileName, SPointPos + 3, 2)
 
 If SPointPos > 8 Then
-    
+
     If InStr(1, FileName, "-") > 0 Then
-        
+
         If Not IsMissing(SpacedSuffix) Then
             If CStr(SpacedSuffix) = "True" Or LCase(CStr(SpacedSuffix)) = "spacedsuffix" Then
                 SSuff = Mid$(FileName, 9, (SPointPos - 9))
@@ -1360,15 +1371,15 @@ If SPointPos > 8 Then
             ' Non spaced suffix by default
             SSuff = Mid$(FileName, 9, (SPointPos - 9))
             SSuff = SGC_Suff_ToStandard_SuffNS(SSuff)
-            
+
             ' contract to WF suffixes, as requested
             If Not IsMissing(UseWFSuffix) Then
-                
+
                 SSuff = SGC_StandardSuff_toWFSuff(SSuff)
-                
+
             End If
-            
-                       
+
+
         End If
     End If
 End If
@@ -1406,7 +1417,7 @@ If Not IsMissing(NoPrefixforST) Then
         GSCFileName_ToStandardName = Replace(GSCFileName_ToStandardName, "ST ", "")
     Else
     End If
-    
+
 Else    ' If parameter is missing, default behaviour is to leave prefix in
 End If
 
