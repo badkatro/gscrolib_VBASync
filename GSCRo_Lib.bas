@@ -1510,7 +1510,7 @@ GSC_CarsNameFormat_ToStandardFormat = Replace(tmpResult, " /", "/")
 End Function
 
 Function GSC_StandardName_ToFileName(StandardName As String, Optional DocLanguage, Optional WithFileExtension) As String
-' version 0.85
+' version 0.86
 
 ' Converts a standard document name to GSC filename as in "ST 12345/12 ADD1 REV2" to "st12345-ad01re02.en12"
 ' 0.70: corrected grave error in which it did not know to handle doc id such as 12536/1/12 (to result in st12536-re01.xx12),
@@ -1520,6 +1520,7 @@ Function GSC_StandardName_ToFileName(StandardName As String, Optional DocLanguag
 ' 0.8: added handling of short compounded suffixes, Workflow style: "RE1CO1" is now legal!
 ' 0.81: function not recognising "AD 16/2016", but same works for "SN" or "ST" !
 ' 0.84: support new doc ID format, namely Automate & CARS Search client format: SN 2525 2018 REV1
+' 0.86: fixed bug (error whith certain non-conforming strings)
 
 Dim SType As String, SNumber As String, SYear As String, SSuff As String, SLng As String
 Dim StdNameArr() As String
@@ -1536,6 +1537,8 @@ If InStr(1, StandardName, "/") = 0 Then
 Else
     suppliedStandardName = StandardName
 End If
+
+If suppliedStandardName = "" Then GSC_StandardName_ToFileName = "": Exit Function
 
 ' ELIMINATE superfluous suffix
 If InStr(1, UCase(suppliedStandardName), "INIT") <> 0 Then
