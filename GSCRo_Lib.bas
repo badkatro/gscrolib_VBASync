@@ -1476,6 +1476,9 @@ If CleanGSC_DocType(CStr(inputWordsArr(0))) <> "" Then
     
     If IsNumeric(inputWordsArr(1)) And IsNumeric(inputWordsArr(2)) Then
         inputWordsArr(2) = "/" & Right(inputWordsArr(2), 2)  ' just shorten year
+    Else
+        GSC_CarsNameFormat_ToStandardFormat = ""
+        Exit Function
     End If
     
 Else    ' first elem is not doc type, we have an ST !
@@ -1487,6 +1490,9 @@ Else    ' first elem is not doc type, we have an ST !
     
     If IsNumeric(inputWordsArr(0)) And IsNumeric(inputWordsArr(1)) Then
         inputWordsArr(1) = "/" & Right(inputWordsArr(1), 2)  ' just shorten year
+    Else
+        GSC_CarsNameFormat_ToStandardFormat = ""
+        Exit Function
     End If
     
 End If

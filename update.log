@@ -1,0 +1,8 @@
+Date:   2019-09-28 23:14:41
+Fixed GSC_CarsNameFormat_ToStandardFormat (error with space separated words
+Date:   2019-09-26 15:05:45
+Fixed GSC_StandardName_ToFileName bug (error with certain strings)
+Date:   2019-09-25 19:25:53
+Enhanced Build_MProd_Path to accept txt docs
+Date:   2018-12-16 19:53:34
+Initial commit
