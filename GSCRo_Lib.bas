@@ -975,7 +975,7 @@ Public Sub ClearFindReplace()
     ' Procedure : ClearFindReplace
     ' DateTime  : 9/08/2006 08:39
     ' Author    : KUHNRAY
-    ' Purpose   : Enlève texte(s) ou paragraphe(s) formaté(s)
+    ' Purpose   : Enlcve texte(s) ou paragraphe(s) formaté(s)
     '---------------------------------------------------------------------------------------
     With Selection.Find
         .ClearFormatting
@@ -2620,6 +2620,8 @@ Next j
 GoTo Deepr
 
 End Function
+
+' Function to sort uni-dimensional array of strings
 Function Sort_Array(iArray) As Variant
 
 Dim strTemp As String
@@ -2640,6 +2642,38 @@ Sort_Array = iArray
 
 End Function
 
+' In place sort uni-dimensional array of arrays (uni-dimensional as well), by indicated element
+' k = inside arrays dimension to sort by (key)
+Function Sort_Array_ofArrays(iArray, Optional k) As Variant
+    
+    Dim arrTemp As Variant      ' Hold temporary array to move around
+    Dim x, y As Integer
+    
+    ' Iterate through all elements of Outside array
+    For x = LBound(iArray) To (UBound(iArray) - 1)
+        
+        ' Iterate through items of array from next to last
+        For y = (x + 1) To UBound(iArray)
+            
+            ' If found array element which belongs AFTER next one, move it !
+            If iArray(x)(k) > iArray(y)(k) Then
+            
+                arrTemp = iArray(x)
+                
+                iArray(x) = iArray(y)
+                iArray(y) = arrTemp
+                
+                arrTemp = Empty
+                
+            End If
+            
+        Next y
+        
+    Next x
+        
+    Sort_Array_ofArrays = iArray
+
+End Function
 
 ' Bubble sort a bi-dimensional array ascending or descending, by first dimension or first and second dimension.
 ' Not possible to sort only by second dimension or sort ascending by one dimension and descending by another!
